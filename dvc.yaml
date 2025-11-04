@@ -1,0 +1,42 @@
+stages:
+  data_ingestion:
+    cmd: python src/bike_rental/pipeline/stage_1_data_ingestion.py
+    deps:
+      - src/bike_rental/pipeline/stage_1_data_ingestion.py
+      - src/bike_rental/config/configuration.py
+      - src/bike_rental/entity/config_entity.py
+      
+    outs:
+      - artifacts/data_ingestion
+
+  data_preprocessing:
+    cmd: python src/bike_rental/pipeline/stage_2_data_preprocessing.py
+    deps:
+      - src/bike_rental/pipeline/stage_2_data_preprocessing.py
+      - src/bike_rental/config/configuration.py
+      - src/bike_rental/entity/config_entity.py
+      - artifacts/data_ingestion
+    outs:
+      - artifacts/data_preprocessing
+
+  training:
+    cmd: python src/bike_rental/pipeline/stage_3_training_pipeline.py
+    deps:
+      - src/bike_rental/pipeline/stage_3_training_pipeline.py
+      - src/bike_rental/config/configuration.py
+      - src/bike_rental/entity/config_entity.py
+      - artifacts/data_preprocessing
+    outs:
+      - artifacts/training
+
+  evaluation:
+    cmd: python src/bike_rental/pipeline/stage_4_evaluation_pipeline.py
+    deps:
+      - src/bike_rental/pipeline/stage_4_evaluation_pipeline.py
+      - src/bike_rental/config/configuration.py
+      - src/bike_rental/entity/config_entity.py
+      - artifacts/training
+      - artifacts/data_preprocessing
+    outs:
+      - artifacts/evaluation
+    

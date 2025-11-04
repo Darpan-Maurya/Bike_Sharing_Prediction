@@ -1,0 +1,106 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python src/bike_rental/pipeline/stage_1_data_ingestion.py
+    deps:
+    - path: src/bike_rental/config/configuration.py
+      hash: md5
+      md5: 8e2f4624c092a923e053bf47f5b16c78
+      size: 2491
+    - path: src/bike_rental/entity/config_entity.py
+      hash: md5
+      md5: 97eb1c413322cb9acfd2f9bf1b7a497c
+      size: 711
+    - path: src/bike_rental/pipeline/stage_1_data_ingestion.py
+      hash: md5
+      md5: 0a2dd76842f17bf054e2b26c843b47c6
+      size: 813
+    outs:
+    - path: artifacts/data_ingestion
+      hash: md5
+      md5: c7f56df4ae8285caa71a06c7db0a9964.dir
+      size: 56814
+      nfiles: 1
+  data_preprocessing:
+    cmd: python src/bike_rental/pipeline/stage_2_data_preprocessing.py
+    deps:
+    - path: artifacts/data_ingestion
+      hash: md5
+      md5: c7f56df4ae8285caa71a06c7db0a9964.dir
+      size: 56814
+      nfiles: 1
+    - path: src/bike_rental/config/configuration.py
+      hash: md5
+      md5: 8e2f4624c092a923e053bf47f5b16c78
+      size: 2491
+    - path: src/bike_rental/entity/config_entity.py
+      hash: md5
+      md5: 97eb1c413322cb9acfd2f9bf1b7a497c
+      size: 711
+    - path: src/bike_rental/pipeline/stage_2_data_preprocessing.py
+      hash: md5
+      md5: 4e714e8861c4a2efc5dc0227f9f34ad7
+      size: 858
+    outs:
+    - path: artifacts/data_preprocessing
+      hash: md5
+      md5: f5d5519cb9dc847d4f64bb8bca45251d.dir
+      size: 155563
+      nfiles: 3
+  training:
+    cmd: python src/bike_rental/pipeline/stage_3_training_pipeline.py
+    deps:
+    - path: artifacts/data_preprocessing
+      hash: md5
+      md5: f5d5519cb9dc847d4f64bb8bca45251d.dir
+      size: 155563
+      nfiles: 3
+    - path: src/bike_rental/config/configuration.py
+      hash: md5
+      md5: 8e2f4624c092a923e053bf47f5b16c78
+      size: 2491
+    - path: src/bike_rental/entity/config_entity.py
+      hash: md5
+      md5: 97eb1c413322cb9acfd2f9bf1b7a497c
+      size: 711
+    - path: src/bike_rental/pipeline/stage_3_training_pipeline.py
+      hash: md5
+      md5: 29431d7ab1555459e1c420970efcbda5
+      size: 736
+    outs:
+    - path: artifacts/training
+      hash: md5
+      md5: e9638a82267f65c72495ce9836a6e98e.dir
+      size: 147673
+      nfiles: 1
+  evaluation:
+    cmd: python src/bike_rental/pipeline/stage_4_evaluation_pipeline.py
+    deps:
+    - path: artifacts/data_preprocessing
+      hash: md5
+      md5: f5d5519cb9dc847d4f64bb8bca45251d.dir
+      size: 155563
+      nfiles: 3
+    - path: artifacts/training
+      hash: md5
+      md5: e9638a82267f65c72495ce9836a6e98e.dir
+      size: 147673
+      nfiles: 1
+    - path: src/bike_rental/config/configuration.py
+      hash: md5
+      md5: 8e2f4624c092a923e053bf47f5b16c78
+      size: 2491
+    - path: src/bike_rental/entity/config_entity.py
+      hash: md5
+      md5: 97eb1c413322cb9acfd2f9bf1b7a497c
+      size: 711
+    - path: src/bike_rental/pipeline/stage_4_evaluation_pipeline.py
+      hash: md5
+      md5: 95f492c74c446b22bed5aa33177dbb78
+      size: 752
+    outs:
+    - path: artifacts/evaluation
+      hash: md5
+      md5: 29faca8a0d3faf1e222e1b6f8e34d907.dir
+      size: 107
+      nfiles: 1

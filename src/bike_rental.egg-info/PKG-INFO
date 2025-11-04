@@ -1,0 +1,13 @@
+Metadata-Version: 2.4
+Name: bike_rental
+Version: 0.0.0
+Summary: A small python package for Prediction of Bike Rentals
+Home-page: https://github.com/Darpan-Maurya/Bike_Sharing_Prediction
+Author: Darpan-Maurya
+Author-email: darpanmaurya2003@gmail.com
+Project-URL: Bug Tracker, https://github.com/Darpan-Maurya/Bike_Sharing_Prediction/issues
+Dynamic: author
+Dynamic: author-email
+Dynamic: home-page
+Dynamic: project-url
+Dynamic: summary

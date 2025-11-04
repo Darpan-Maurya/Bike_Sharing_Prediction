@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bike Sharing Prediction</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body class="container py-5">
+    <h2 class="text-center">Bike Sharing Prediction</h2>
+    <form id="predictionForm">
+        <div class="form-group">
+            <label>Year (0=2011, 1=2012)</label>
+            <input type="number" class="form-control" name="yr" required>
+        </div>
+        <div class="form-group">
+            <label>Month (1-12)</label>
+            <input type="number" class="form-control" name="mnth" required>
+        </div>
+        <div class="form-group">
+            <label>Holiday (0=No, 1=Yes)</label>
+            <input type="number" class="form-control" name="holiday" required>
+        </div>
+        <div class="form-group">
+            <label>Weekday (0=Sun, ..., 6=Sat)</label>
+            <input type="number" class="form-control" name="weekday" required>
+        </div>
+        <div class="form-group">
+            <label>Working Day (0/1)</label>
+            <input type="number" class="form-control" name="workingday" required>
+        </div>
+        <div class="form-group">
+            <label>Weather Situation (1-4)</label>
+            <input type="number" class="form-control" name="weathersit" required>
+        </div>
+        <div class="form-group">
+            <label>Temperature (normalized 0-1)</label>
+            <input type="number" step="0.01" class="form-control" name="temp" required>
+        </div>
+        <div class="form-group">
+            <label>Humidity (normalized 0-1)</label>
+            <input type="number" step="0.01" class="form-control" name="hum" required>
+        </div>
+        <div class="form-group">
+            <label>Windspeed (normalized 0-1)</label>
+            <input type="number" step="0.01" class="form-control" name="windspeed" required>
+        </div>
+        <div class="form-group">
+            <label>Season (1=Spring, 2=Summer, 3=Fall, 4=Winter)</label>
+            <input type="number" class="form-control" name="season" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Predict</button>
+    </form>
+
+    <h3 class="mt-4">Prediction: <span id="result"></span></h3>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $("#predictionForm").on("submit", function(e){
+            e.preventDefault();
+
+            let inputData = {};
+            $(this).serializeArray().forEach(item => {
+                inputData[item.name] = parseFloat(item.value);
+            });
+
+            $.ajax({
+                url: "/predict",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(inputData),
+                success: function(res){
+                    $("#result").text(res.prediction);
+                },
+                error: function(err){
+                    $("#result").text("Error: " + err.responseJSON.error);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
